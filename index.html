@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DealTracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN TOKENS — inspired by Impeccable
+           ============================================ */
+        :root {
+            /* OKLCH-tinted neutrals (warm undertone) */
+            --ink:       oklch(12% 0.008 30);
+            --charcoal:  oklch(30% 0.006 30);
+            --ash:       oklch(50% 0.005 30);
+            --mist:      oklch(88% 0.004 30);
+            --fog:       oklch(94% 0.003 30);
+            --paper:     oklch(98.5% 0.002 30);
+            --white:     #ffffff;
+
+            /* Accent — warm rose */
+            --accent:       oklch(55% 0.22 12);
+            --accent-soft:  oklch(92% 0.04 12);
+            --accent-mid:   oklch(72% 0.14 12);
+
+            /* Semantic */
+            --green:        oklch(52% 0.17 155);
+            --green-soft:   oklch(94% 0.04 155);
+            --red:          oklch(52% 0.2 25);
+            --red-soft:     oklch(94% 0.04 25);
+            --amber:        oklch(62% 0.18 80);
+            --amber-soft:   oklch(95% 0.04 80);
+            --blue:         oklch(52% 0.18 255);
+            --blue-soft:    oklch(94% 0.04 255);
+            --pink:         oklch(55% 0.2 350);
+            --pink-soft:    oklch(94% 0.04 350);
+
+            /* Type */
+            --font-display: 'Space Grotesk', system-ui, sans-serif;
+            --font-body:    'Instrument Sans', system-ui, sans-serif;
+            --font-mono:    'Space Grotesk', monospace;
+
+            /* Spacing (4pt base) */
+            --sp-xs: 0.5rem;
+            --sp-sm: 1rem;
+            --sp-md: 1.5rem;
+            --sp-lg: 2rem;
+            --sp-xl: 3rem;
+            --sp-2xl: 5rem;
+
+            /* Motion */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --dur-fast: 0.15s;
+            --dur-base: 0.3s;
+            --dur-slow: 0.6s;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.06);
+            --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.08);
+            --shadow-lg: 0 12px 32px oklch(0% 0 0 / 0.1);
+
+            --radius: 10px;
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        ::selection { background: var(--accent-soft); }
+
+        a { color: var(--accent); text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
+        a:hover { color: var(--ink); }
+
+        img { display: block; max-width: 100%; }
+
+        /* ============================================
+           LAYOUT
+           ============================================ */
+        .page {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 var(--sp-md);
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: oklch(98.5% 0.002 30 / 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--mist);
+        }
+        .header-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: var(--sp-sm) var(--sp-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+        .logo-mark {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--white);
+            background: var(--accent);
+            width: 28px; height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            position: relative;
+            top: 2px;
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-sm);
+        }
+        .header-date {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--ash);
+        }
+
+        /* ============================================
+           HERO — Top 3 Deals
+           ============================================ */
+        .hero {
+            padding: var(--sp-2xl) 0 var(--sp-xl);
+        }
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: var(--sp-xs);
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            max-width: 600px;
+        }
+        .hero-sub {
+            color: var(--ash);
+            font-size: 0.95rem;
+            margin-top: var(--sp-sm);
+            max-width: 480px;
+        }
+
+        /* Top 3 cards — asymmetric layout */
+        .top-deals {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: var(--sp-sm);
+            margin-top: var(--sp-lg);
+        }
+        .top-deal {
+            background: var(--white);
+            border: 1px solid var(--mist);
+            border-radius: var(--radius);
+            padding: var(--sp-md);
+            position: relative;
+            transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .top-deal:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            color: inherit;
+            text-decoration: none;
+        }
+        .top-deal:first-child {
+            grid-row: span 1;
+        }
+        .top-deal-rank {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--mist);
+            position: absolute;
+            top: var(--sp-sm);
+            right: var(--sp-md);
+            line-height: 1;
+        }
+        .top-deal-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: var(--sp-sm);
+        }
+        .top-deal-brand img {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--mist);
+        }
+        .top-deal-brand h3 {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .top-deal-rate {
+            font-family: var(--font-mono);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+        .top-deal-rate.green { color: var(--green); }
+        .top-deal-detail {
+            font-size: 0.78rem;
+            color: var(--ash);
+            margin-top: 0.3rem;
+        }
+        .top-deal-tags {
+            display: flex;
+            gap: 0.35rem;
+            margin-top: var(--sp-sm);
+            flex-wrap: wrap;
+        }
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+        }
+        .tag-co   { background: var(--blue-soft); color: var(--blue); }
+        .tag-rak  { background: var(--pink-soft); color: var(--pink); }
+        .tag-buy  { background: var(--green-soft); color: var(--green); }
+        .tag-wait { background: var(--red-soft); color: var(--red); }
+        .tag-fair { background: var(--amber-soft); color: var(--amber); }
+        .tag-cat  { background: var(--fog); color: var(--charcoal); }
+
+        /* Deal-type badges */
+        .deal-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 5px;
+        }
+        .dtb-pct     { background: var(--green-soft); color: var(--green); }
+        .dtb-gc      { background: oklch(93% 0.05 290); color: oklch(45% 0.2 290); }
+        .dtb-gwp     { background: oklch(93% 0.05 330); color: oklch(45% 0.18 330); }
+        .dtb-bogo    { background: oklch(93% 0.05 200); color: oklch(45% 0.15 200); }
+        .dtb-dollar  { background: var(--amber-soft); color: var(--amber); }
+        .dtb-pts     { background: oklch(93% 0.04 60); color: oklch(50% 0.15 60); }
+
+        /* ============================================
+           SECTION CHROME
+           ============================================ */
+        .section {
+            padding: var(--sp-xl) 0;
+            border-top: 1px solid var(--mist);
+        }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--ash);
+            margin-bottom: 0.3rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: var(--sp-lg);
+            flex-wrap: wrap;
+            gap: var(--sp-sm);
+        }
+
+        /* ============================================
+           CATEGORY FILTER PILLS
+           ============================================ */
+        .filters {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+        .filter-pill {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            border: 1px solid var(--mist);
+            background: var(--white);
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-out);
+            white-space: nowrap;
+        }
+        .filter-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .filter-pill.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--white);
+        }
+
+        /* ============================================
+           DEAL LIST — left-aligned, no card nesting
+           ============================================ */
+        .deals-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--sp-sm);
+        }
+        .deal {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--sp-sm);
+            padding: var(--sp-md);
+            background: var(--white);
+            border: 1px solid var(--mist);
+            border-radius: var(--radius);
+            transition: all var(--dur-base) var(--ease-out);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .deal:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            text-decoration: none;
+            color: inherit;
+        }
+        .deal-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: var(--fog);
+            border: 1px solid var(--mist);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .deal-icon img { width: 26px; height: 26px; object-fit: contain; }
+        .deal-icon .fb {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        .deal-body { flex: 1; min-width: 0; }
+        .deal-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .deal-meta {
+            font-size: 0.75rem;
+            color: var(--ash);
+            margin-top: 0.15rem;
+        }
+        .deal-tags {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .deal-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .deal-pct {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+        .deal-signal-text {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 0.3rem;
+        }
+        .deal-range {
+            margin-top: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .deal-range-bar {
+            width: 60px;
+            height: 4px;
+            background: var(--fog);
+            border-radius: 2px;
+            position: relative;
+            overflow: visible;
+        }
+        .deal-range-fill {
+            height: 100%;
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+        }
+        .deal-range-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--accent);
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .deal-range-text {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--ash);
+        }
+
+        /* ============================================
+           LINE CHART — Rate Tracker
+           ============================================ */
+        .line-chart-wrap {
+            background: var(--white);
+            border: 1px solid var(--mist);
+            border-radius: var(--radius);
+            padding: var(--sp-md);
+        }
+        .line-chart-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-sm);
+            margin-bottom: var(--sp-md);
+            flex-wrap: wrap;
+        }
+        .line-chart-controls label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--ash);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .line-chart-controls select {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            padding: 0.5rem 0.8rem;
+            border: 1px solid var(--mist);
+            border-radius: 8px;
+            background: var(--fog);
+            color: var(--ink);
+            outline: none;
+            transition: border-color var(--dur-fast);
+            cursor: pointer;
+        }
+        .line-chart-controls select:focus { border-color: var(--accent); }
+        .chart-stat-row {
+            display: flex;
+            gap: var(--sp-md);
+            margin-bottom: var(--sp-sm);
+            flex-wrap: wrap;
+        }
+        .chart-stat {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+        }
+        .chart-stat .cs-label { color: var(--ash); }
+        .chart-stat .cs-val { font-weight: 700; }
+        .line-chart-svg {
+            width: 100%;
+            overflow: visible;
+        }
+        .lc-grid-line {
+            stroke: var(--fog);
+            stroke-width: 1;
+        }
+        .lc-avg-line {
+            stroke: var(--accent);
+            stroke-width: 1;
+            stroke-dasharray: 6 4;
+            opacity: 0.5;
+        }
+        .lc-area {
+            transition: d var(--dur-base) var(--ease-out);
+        }
+        .lc-line {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: d var(--dur-base) var(--ease-out);
+        }
+        .lc-dot {
+            transition: all var(--dur-fast) var(--ease-out);
+            cursor: pointer;
+        }
+        .lc-dot:hover { r: 7; }
+        .lc-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            fill: var(--ash);
+        }
+        .lc-y-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            fill: var(--ash);
+        }
+        .lc-tooltip {
+            position: absolute;
+            background: var(--ink);
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity var(--dur-fast);
+        }
+        .lc-tooltip.show { opacity: 1; }
+        .brand-quick-pills {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            margin-top: var(--sp-sm);
+        }
+        .bq-pill {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 14px;
+            border: 1px solid var(--mist);
+            background: var(--white);
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-out);
+        }
+        .bq-pill:hover, .bq-pill.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--white);
+        }
+
+        /* ============================================
+           CASHBACK PORTAL — combined list
+           ============================================ */
+        .portal-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .portal-row {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-sm);
+            padding: 0.85rem var(--sp-sm);
+            border-bottom: 1px solid var(--fog);
+            transition: background var(--dur-fast);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .portal-row:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+        .portal-row:last-child { border-bottom: none; border-radius: 0 0 var(--radius) var(--radius); }
+        .portal-row:hover {
+            background: var(--fog);
+            text-decoration: none;
+            color: inherit;
+        }
+        .portal-rank {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--ash);
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .portal-row img { width: 24px; height: 24px; border-radius: 5px; flex-shrink: 0; }
+        .portal-row .fb {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent);
+            width: 24px; text-align: center;
+        }
+        .portal-brand {
+            flex: 1;
+            min-width: 0;
+        }
+        .portal-brand h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .portal-brand .portal-cat {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            color: var(--ash);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .portal-rates {
+            display: flex;
+            gap: var(--sp-sm);
+            flex-shrink: 0;
+            align-items: center;
+        }
+        .portal-rate-chip {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            min-width: 60px;
+            text-align: center;
+        }
+        .prc-co { background: var(--blue-soft); color: var(--blue); }
+        .prc-rak { background: var(--pink-soft); color: var(--pink); }
+        .portal-total {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--green);
+            min-width: 55px;
+            text-align: right;
+        }
+        .portal-header-row {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-sm);
+            padding: 0.5rem var(--sp-sm);
+            border-bottom: 2px solid var(--mist);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: var(--ash);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .portal-header-row .ph-brand { flex: 1; margin-left: calc(24px + 24px + 2rem); }
+        .portal-header-row .ph-rates { display: flex; gap: var(--sp-sm); }
+        .portal-header-row .ph-rate { min-width: 60px; text-align: center; }
+        .portal-header-row .ph-total { min-width: 55px; text-align: right; }
+        .portal-wrap {
+            background: var(--white);
+            border: 1px solid var(--mist);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        /* ============================================
+           BRANDS
+           ============================================ */
+        .brands-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--mist);
+            border-radius: 20px;
+            background: var(--white);
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-out);
+            text-decoration: none;
+        }
+        .brand-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .brand-pill img { width: 14px; height: 14px; border-radius: 3px; }
+        .brand-pill .dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            border-top: 1px solid var(--mist);
+            padding: var(--sp-lg) 0;
+            margin-top: var(--sp-xl);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--ash);
+        }
+
+        /* ============================================
+           SCROLL REVEAL
+           ============================================ */
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+        }
+        [data-reveal].visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .top-deals { grid-template-columns: 1fr; }
+            .deals-list { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            .top-deal-rank { font-size: 1.8rem; }
+            .portal-rates { gap: 0.4rem; }
+            .portal-rate-chip { min-width: 48px; font-size: 0.68rem; padding: 0.2rem 0.4rem; }
+            .portal-header-row { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            [data-reveal] { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-mark">DT</div>
+            <div class="logo-text">DealTracker</div>
+        </div>
+        <div class="header-meta">
+            <span class="header-date">Mar 26, 2026</span>
+        </div>
+    </div>
+</div>
+
+<div class="page">
+    <!-- Hero + Top 3 -->
+    <div class="hero" data-reveal>
+        <div class="hero-label">Today's best</div>
+        <h1>Top deals across your favorite brands</h1>
+        <p class="hero-sub">Brand promos from your inbox + cashback rates, ranked by what's <em>unusual</em> today — gift cards, BOGO, free gifts & more.</p>
+        <div style="margin-top:var(--sp-sm);padding:0.7rem 1rem;background:var(--amber-soft);border:1px solid var(--amber-border, var(--mist));border-radius:8px;font-size:0.75rem;color:var(--charcoal);line-height:1.6;max-width:640px;">
+            <strong style="color:var(--amber)">About cashback rates:</strong> Capital One Shopping & Rakuten are exclusive — use one per purchase. CapOne email rates are often <em>personalized and higher</em> than the website shows. Always check your email first, then use the browser extension as fallback. Rates shown here are from email offers.
+        </div>
+        <div class="top-deals" id="top-deals"></div>
+    </div>
+
+    <!-- All Deals -->
+    <div class="section" data-reveal>
+        <div class="section-header">
+            <div>
+                <div class="section-label">Browse deals</div>
+                <div class="section-title">All Active Deals</div>
+            </div>
+            <div class="filters" id="filters"></div>
+        </div>
+        <div class="deals-list" id="deals-list"></div>
+    </div>
+
+    <!-- Rate Tracker — Line Chart -->
+    <div class="section" data-reveal>
+        <div class="section-header">
+            <div>
+                <div class="section-label">Trends</div>
+                <div class="section-title">Rate Tracker</div>
+            </div>
+        </div>
+        <div class="line-chart-wrap">
+            <div class="line-chart-controls">
+                <label>Brand</label>
+                <select id="chart-brand" onchange="drawChart()"></select>
+            </div>
+            <div class="brand-quick-pills" id="brand-quick-pills"></div>
+            <div class="chart-stat-row" id="chart-stats"></div>
+            <div style="position:relative;">
+                <svg id="line-chart" class="line-chart-svg" viewBox="0 0 700 220"></svg>
+                <div class="lc-tooltip" id="lc-tooltip"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cashback Portal — combined Rakuten + Capital One -->
+    <div class="section" data-reveal>
+        <div class="section-header">
+            <div>
+                <div class="section-label">All cashback rates</div>
+                <div class="section-title">Cashback Portal</div>
+            </div>
+        </div>
+        <div class="portal-wrap">
+            <div class="portal-header-row">
+                <span style="width:24px">#</span>
+                <span style="width:24px"></span>
+                <span class="ph-brand">Brand</span>
+                <div class="ph-rates">
+                    <span class="ph-rate">CapOne</span>
+                    <span class="ph-rate">Rakuten</span>
+                </div>
+                <span class="ph-total">Best</span>
+            </div>
+            <div class="portal-list" id="portal-list"></div>
+        </div>
+    </div>
+
+    <!-- Brands -->
+    <div class="section" data-reveal>
+        <div class="section-header">
+            <div>
+                <div class="section-label">Your profile</div>
+                <div class="section-title">Brands You Shop</div>
+            </div>
+        </div>
+        <div class="brands-wrap" id="brands-wrap"></div>
+    </div>
+
+    <div class="footer">
+        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 26, 2026.
+    </div>
+</div>
+
+<script>
+// =========================================================
+// BRAND DATABASE
+// =========================================================
+const B = {
+    "Dyson":          { d: "dyson.com",          u: "https://www.dyson.com",            cat: "Home" },
+    "Carter's":       { d: "carters.com",        u: "https://www.carters.com",          cat: "Kids" },
+    "IKEA":           { d: "ikea.com",           u: "https://www.ikea.com",             cat: "Home" },
+    "Chewy":          { d: "chewy.com",          u: "https://www.chewy.com",            cat: "Pets" },
+    "Gap":            { d: "gap.com",            u: "https://www.gap.com",              cat: "Fashion" },
+    "Walmart":        { d: "walmart.com",        u: "https://www.walmart.com",          cat: "Shopping" },
+    "Macy's":         { d: "macys.com",          u: "https://www.macys.com",            cat: "Fashion" },
+    "Dermstore":      { d: "dermstore.com",      u: "https://www.dermstore.com",        cat: "Beauty" },
+    "Petco":          { d: "petco.com",          u: "https://www.petco.com",            cat: "Pets" },
+    "AliExpress":     { d: "aliexpress.com",     u: "https://www.aliexpress.com",       cat: "Shopping" },
+    "Janie and Jack": { d: "janieandjack.com",   u: "https://www.janieandjack.com",     cat: "Kids" },
+    "Stride Rite":    { d: "striderite.com",     u: "https://www.striderite.com",       cat: "Kids" },
+    "Woom":           { d: "woom.com",           u: "https://us.woom.com",              cat: "Kids" },
+    "H&M":            { d: "hm.com",             u: "https://www.hm.com",               cat: "Fashion" },
+    "Aritzia":        { d: "aritzia.com",        u: "https://www.aritzia.com",          cat: "Fashion" },
+    "SkinCeuticals":  { d: "skinceuticals.com",  u: "https://www.skinceuticals.com",    cat: "Beauty" },
+    "DoorDash":       { d: "doordash.com",       u: "https://www.doordash.com",         cat: "Food" },
+    "Temu":           { d: "temu.com",           u: "https://www.temu.com",             cat: "Shopping" },
+    "FreeTaxUSA":     { d: "freetaxusa.com",     u: "https://www.freetaxusa.com",       cat: "Finance" },
+    "Lululemon":      { d: "lululemon.com",      u: "https://www.lululemon.com",        cat: "Fashion" },
+    "Patagonia":      { d: "patagonia.com",      u: "https://www.patagonia.com",        cat: "Outdoor" },
+    "REI":            { d: "rei.com",            u: "https://www.rei.com",              cat: "Outdoor" },
+    "Sephora":        { d: "sephora.com",        u: "https://www.sephora.com",          cat: "Beauty" },
+    "Bloomingdale's": { d: "bloomingdales.com",  u: "https://www.bloomingdales.com",    cat: "Fashion" },
+    "Nordstrom":      { d: "nordstrom.com",      u: "https://www.nordstrom.com",        cat: "Fashion" },
+};
+
+function icon(name, sz) {
+    const b = B[name];
+    return b ? `<img src="https://www.google.com/s2/favicons?sz=64&domain=${b.d}" width="${sz||24}" height="${sz||24}" alt="${name}" onerror="this.outerHTML='<span class=fb>${name[0]}</span>'">` : `<span class="fb">${name[0]}</span>`;
+}
+function url(name) { return B[name] ? B[name].u : "#"; }
+function cat(name) { return B[name] ? B[name].cat : "Other"; }
+
+// Cashback portal links — actual activation pages
+function coLink(name) {
+    const b = B[name];
+    return b ? `https://capitaloneshopping.com/s/${b.d}` : "https://capitaloneshopping.com";
+}
+function rakLink(name) {
+    // Rakuten store page format
+    const slugMap = {
+        "Gap":"gap.com","Macy's":"macys.com","H&M":"hm","DoorDash":"doordash.com",
+        "Chewy":"chewy.com","Carter's":"carters.com","IKEA":"ikea","Dyson":"dyson.com",
+        "Walmart":"walmart.com","Dermstore":"dermstore.com","SkinCeuticals":"skinceuticals.com",
+        "Petco":"petco.com","Temu":"temu.com","Aritzia":"aritzia.com",
+        "Lululemon":"lululemon.com","Patagonia":"patagonia.com","REI":"rei.com",
+        "Sephora":"sephora.com","Bloomingdale's":"bloomingdales.com","Nordstrom":"nordstrom.com"
+    };
+    const slug = slugMap[name];
+    return slug ? `https://www.rakuten.com/${slug.replace('.com','').replace('.','')}.htm` : "https://www.rakuten.com";
+}
+function bestLink(name) {
+    const cb = bestCashback(name);
+    return cb.source === "Capital One" ? coLink(name) : rakLink(name);
+}
+
+// =========================================================
+// DEAL DATA
+// =========================================================
+const brandsPurchased = [
+    "Gap","H&M","Aritzia","SkinCeuticals","DoorDash","Temu","FreeTaxUSA",
+    "IKEA","Chewy","Carter's","Woom","Dyson","Walmart","Macy's",
+    "Dermstore","Petco","Lululemon","Patagonia","REI","Janie and Jack",
+    "Stride Rite","AliExpress","Sephora","Bloomingdale's","Nordstrom"
+];
+
+// Deal types: pct = % off, gc = gift card, gwp = gift with purchase, bogo = BOGO, dollar = $ off, pts = points multiplier
+// "off" is the numeric % for scoring; "ev" (effective value) is used for non-% deals to score them
+// Data updated from Gmail scan — Mar 26, 2026
+
+const PROMOS = {
+    "Dyson":          { promo: "Owner Rewards — 20% off floorcare, air & lighting", off: 20, code: "OR26-xxxx (personalized)", ends: "Apr 4", type: "pct",
+                        extra: "Trade-In Event: bring any device to Dyson Store for 20% off (thru May 3)" },
+    "Carter's":       { promo: "Up to 50% off spring + 60% off Easter styles", off: 50, code: "20% off cart", ends: "Mar 31", type: "pct" },
+    "Sephora":        { promo: "15% off hair care + 50% off select beauty daily", off: 50, code: null, ends: "Mar 26", type: "pct",
+                        extra: "Daily deals rotate — check app for today's 50% off picks" },
+    "Macy's":         { promo: "VIP Sale — up to 70% off clearance + extra 25% off", off: 70, code: "25OFF", ends: "Mar 29", type: "pct" },
+    "Bloomingdale's": { promo: "Spend & Get — up to $1,200 Gift Card with purchase", off: null, code: null, ends: "Recurring", type: "gc",
+                        badge: "Spend $→ Gift Card", ev: 20,
+                        tiers: "$100→$25 GC · $300→$75 GC · $500→$150 GC · $1000→$300 GC" },
+    "SkinCeuticals":  { promo: "Free 4-piece gift set with orders $200+", off: null, code: null, ends: "Apr 2", type: "gwp",
+                        badge: "Free Gift w/ $200+", ev: 18,
+                        extra: "Choose from Gua Sha, serums & more — Vitamin C Day bundles 10% off" },
+    "Dermstore":      { promo: "Exclusive Oribe Event — 20% off bestsellers", off: 20, code: null, ends: "Mar 28", type: "pct",
+                        extra: "Oribe haircare only — limited brand event" },
+    "Gap":            { promo: "Up to 50% off + extra 50% off clearance", off: 50, code: "ADDON (extra 10%)", ends: "Mar 28", type: "pct" },
+    "Lululemon":      { promo: "We Made Too Much — up to 63% off", off: 63, code: null, ends: "Ongoing", type: "pct" },
+    "Aritzia":        { promo: "New arrivals — no active sale", off: 0, code: null, ends: null, type: "pct" },
+    "Patagonia":      { promo: "Spring Web Specials — up to 50% off", off: 50, code: null, ends: "Limited", type: "pct" },
+    "IKEA":           { promo: "IKEA Family — 90-day price protection + up to 20% off select", off: 20, code: null, ends: "Apr 5", type: "pct" },
+    "Walmart":        { promo: "Rollback deals — up to 65% off", off: 65, code: null, ends: "Ongoing", type: "pct" },
+    "Chewy":          { promo: "50% off first autoship + treats under $10", off: 50, code: "$20 off $49+", ends: "Ongoing", type: "pct",
+                        extra: "Dollar-off: $20 off orders $49+ for new autoship" },
+    "Petco":          { promo: "Clearance — up to 50% off", off: 50, code: null, ends: "Ongoing", type: "pct",
+                        extra: "Dollar-off: $15 off $75+" },
+    "Janie and Jack":  { promo: "30% off kids & newborn clothing", off: 30, code: "LUCKY15 (15% off)", ends: "Mar 31", type: "pct" },
+    "Stride Rite":    { promo: "BOGO 40% off + 25% off sandals", off: 40, code: null, ends: "Apr 13", type: "bogo",
+                        badge: "BOGO 40% off", ev: 20 },
+    "AliExpress":     { promo: "Spring deals — up to 80% off", off: 80, code: null, ends: "Ongoing", type: "pct" },
+    "Nordstrom":      { promo: "Spring sale — up to 40% off select", off: 40, code: null, ends: "Apr 1", type: "pct" },
+};
+
+const CO = {
+    "Dyson":          { cur:5,    detail:"Wet & Robot 5%, Everything Else 3.5%", exp:"Mar 28, 2026",
+                        h:[{d:"2025-09",r:7.5},{d:"2025-10",r:10},{d:"2025-11",r:15},{d:"2025-12",r:24},{d:"2026-01",r:20},{d:"2026-02",r:24},{d:"2026-03",r:5}], lo:3.5, hi:24 },
+    "Carter's":       { cur:20,   detail:"20% reward", exp:null,
+                        h:[{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
+    "IKEA":           { cur:5,    detail:"5% reward", exp:null,
+                        h:[{d:"2025-09",r:5},{d:"2025-11",r:5.5},{d:"2026-01",r:5},{d:"2026-03",r:5}], lo:5, hi:5.5 },
+    "Chewy":          { cur:4,    detail:"4% reward", exp:"Mar 28, 2026",
+                        h:[{d:"2025-08",r:3},{d:"2025-10",r:4},{d:"2025-12",r:5},{d:"2026-02",r:4},{d:"2026-03",r:4}], lo:3, hi:5 },
+    "Gap":            { cur:15,   detail:"15% reward", exp:null,
+                        h:[{d:"2025-08",r:10},{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:15},{d:"2026-03",r:15}], lo:10, hi:20 },
+    "Walmart":        { cur:4,    detail:"4-13% varies by category", exp:null,
+                        h:[{d:"2025-08",r:4},{d:"2025-10",r:8},{d:"2025-12",r:13},{d:"2026-01",r:6},{d:"2026-03",r:4}], lo:4, hi:13 },
+    "Macy's":         { cur:10,   detail:"Up to 18% on select categories", exp:null,
+                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:18},{d:"2026-03",r:10}], lo:8, hi:18 },
+    "Dermstore":      { cur:40,   detail:"40-60% reward", exp:null,
+                        h:[{d:"2025-10",r:40},{d:"2025-12",r:60},{d:"2026-02",r:50},{d:"2026-03",r:40}], lo:40, hi:60 },
+    "Petco":          { cur:16.5, detail:"16.5% reward", exp:null,
+                        h:[{d:"2025-11",r:12},{d:"2026-01",r:16.5},{d:"2026-03",r:16.5}], lo:12, hi:16.5 },
+    "AliExpress":     { cur:25.5, detail:"25.5% reward", exp:null,
+                        h:[{d:"2025-10",r:18},{d:"2025-12",r:25},{d:"2026-02",r:25.5},{d:"2026-03",r:25.5}], lo:18, hi:25.5 },
+    "Janie and Jack": { cur:20,   detail:"11-20% reward", exp:null,
+                        h:[{d:"2025-10",r:11},{d:"2025-12",r:20},{d:"2026-02",r:15},{d:"2026-03",r:20}], lo:11, hi:20 },
+    "Stride Rite":    { cur:20,   detail:"20% reward", exp:null,
+                        h:[{d:"2025-11",r:15},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
+    "Woom":           { cur:2,    detail:"2-3% reward", exp:null,
+                        h:[{d:"2025-12",r:3},{d:"2026-02",r:2},{d:"2026-03",r:2}], lo:2, hi:3 },
+    "Aritzia":        { cur:8,    detail:"8% reward", exp:null,
+                        h:[{d:"2025-10",r:5},{d:"2025-12",r:10},{d:"2026-02",r:8},{d:"2026-03",r:8}], lo:5, hi:10 },
+    "Lululemon":      { cur:6,    detail:"6% reward", exp:null,
+                        h:[{d:"2025-09",r:4},{d:"2025-11",r:8},{d:"2026-01",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
+    "Patagonia":      { cur:7,    detail:"7% reward", exp:null,
+                        h:[{d:"2025-10",r:5},{d:"2025-12",r:9},{d:"2026-02",r:7},{d:"2026-03",r:7}], lo:5, hi:9 },
+    "REI":            { cur:5,    detail:"5% reward + member dividend", exp:null,
+                        h:[{d:"2025-10",r:3},{d:"2025-12",r:6},{d:"2026-02",r:5},{d:"2026-03",r:5}], lo:3, hi:6 },
+    "Sephora":        { cur:8,    detail:"8% reward on beauty", exp:null,
+                        h:[{d:"2025-09",r:5},{d:"2025-11",r:10},{d:"2026-01",r:8},{d:"2026-03",r:8}], lo:5, hi:10 },
+    "Bloomingdale's": { cur:12,   detail:"8-12% reward", exp:null,
+                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:12}], lo:8, hi:12 },
+    "Nordstrom":      { cur:6,    detail:"6% reward", exp:null,
+                        h:[{d:"2025-10",r:4},{d:"2025-12",r:8},{d:"2026-02",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
+};
+
+const RAK = [
+    { brand:"Gap",           cb:"6%",   d:"Extra 6% cashback on all purchases" },
+    { brand:"Macy's",        cb:"4%",   d:"4% cashback + free shipping over $25" },
+    { brand:"H&M",           cb:"3%",   d:"3% cashback on full-price items" },
+    { brand:"DoorDash",      cb:"$5",   d:"$5 bonus on first order this month" },
+    { brand:"Chewy",         cb:"3.5%", d:"3.5% cashback on pet supplies" },
+    { brand:"Carter's",      cb:"4%",   d:"4% cashback + stack with sales" },
+    { brand:"IKEA",          cb:"2%",   d:"2% cashback on furniture & decor" },
+    { brand:"Dyson",         cb:"2%",   d:"2% cashback" },
+    { brand:"Walmart",       cb:"2.5%", d:"2.5% cashback on online orders" },
+    { brand:"Dermstore",     cb:"5%",   d:"5% cashback on skincare" },
+    { brand:"SkinCeuticals", cb:"4%",   d:"4% cashback on premium skincare" },
+    { brand:"Petco",         cb:"3%",   d:"3% cashback on pet essentials" },
+    { brand:"Temu",          cb:"3%",   d:"3% cashback on all items" },
+    { brand:"Aritzia",       cb:"3%",   d:"3% cashback on all items" },
+    { brand:"Lululemon",     cb:"2%",   d:"2% cashback" },
+    { brand:"Patagonia",     cb:"2.5%", d:"2.5% cashback on gear & apparel" },
+    { brand:"REI",           cb:"2%",   d:"2% cashback on full-price items" },
+    { brand:"Sephora",       cb:"4%",   d:"4% cashback on beauty" },
+    { brand:"Bloomingdale's",cb:"6%",   d:"6% cashback + free shipping Loyallist" },
+    { brand:"Nordstrom",     cb:"3%",   d:"3% cashback" },
+];
+
+// =========================================================
+// LOGIC
+// =========================================================
+function avg(b) {
+    const d = CO[b]; if(!d) return 0;
+    return d.h.reduce((s,x) => s+x.r, 0) / d.h.length;
+}
+function sig(b) {
+    const d = CO[b]; if(!d) return {s:"none",l:"—",c:""};
+    const range = d.hi - d.lo;
+    const pct = range > 0 ? (d.cur - d.lo) / range : 0.5;
+    if (pct >= 0.75) return {s:"buy",l:"Buy Now",c:"tag-buy"};
+    if (pct <= 0.3)  return {s:"wait",l:"Wait",c:"tag-wait"};
+    return {s:"ok",l:"Fair",c:"tag-fair"};
+}
+function rakPct(b) { const r = RAK.find(x => x.brand === b); return r ? (parseFloat(r.cb)||0) : 0; }
+// Capital One & Rakuten are EXCLUSIVE — you pick the better one
+function bestCashback(b) {
+    const co = CO[b] ? CO[b].cur : 0;
+    const rk = rakPct(b);
+    if (co >= rk) return { rate: co, source: "Capital One", color: "var(--blue)" };
+    return { rate: rk, source: "Rakuten", color: "var(--pink)" };
+}
+
+// Get the effective discount value for any deal type
+function promoValue(p) {
+    if (!p) return 0;
+    if (p.off && p.off > 0) return p.off;
+    if (p.ev) return p.ev; // effective value for non-% deals (gift cards, GWP, BOGO)
+    return 0;
+}
+
+// Deal type display helpers
+function dealTypeBadge(p) {
+    if (!p) return '';
+    const types = {
+        gc:    { label: p.badge || "Gift Card",       cls: "dtb-gc",    icon: "🎁" },
+        gwp:   { label: p.badge || "Free Gift",       cls: "dtb-gwp",   icon: "🎀" },
+        bogo:  { label: p.badge || "BOGO",            cls: "dtb-bogo",  icon: "2️⃣" },
+        dollar:{ label: p.badge || "$ Off",           cls: "dtb-dollar", icon: "💵" },
+        pts:   { label: p.badge || "Bonus Points",    cls: "dtb-pts",   icon: "⭐" },
+    };
+    const t = types[p.type];
+    if (!t) return ''; // pct type doesn't need a special badge
+    return `<span class="deal-type-badge ${t.cls}">${t.icon} ${t.label}</span>`;
+}
+
+// Format the deal headline for top 3 and deal cards
+function dealHeadline(p) {
+    if (!p) return '';
+    if (p.type === "pct" && p.off > 0) return `Up to ${p.off}% off`;
+    if (p.type === "gc") return p.tiers ? p.tiers.split('·')[0].trim() : (p.badge || "Gift Card Deal");
+    if (p.type === "gwp") return p.badge || "Free Gift with Purchase";
+    if (p.type === "bogo") return p.badge || "BOGO Deal";
+    if (p.type === "dollar") return p.badge || "Dollar-Off Deal";
+    return p.promo.split('—')[0].trim();
+}
+
+// Anomaly / surprise score — what makes a deal "hot" today
+// High score = something unusual is happening (rate spike, new promo, rare sale)
+function anomalyScore(b) {
+    const d = CO[b];
+    const p = PROMOS[b];
+    let score = 0;
+
+    if (d) {
+        // Cashback rate anomaly: how far above recent average?
+        const a = avg(b);
+        const deviation = a > 0 ? (d.cur - a) / a : 0;
+        score += Math.max(0, deviation) * 30;
+
+        // Rate at historical high?
+        if (d.cur >= d.hi * 0.95) score += 15;
+    }
+
+    if (p) {
+        // Brand promo anomaly: use effective value for all deal types
+        const pv = promoValue(p);
+        score += pv * 0.5;
+
+        // Non-percentage deal types get a novelty bonus (more interesting to surface)
+        if (p.type && p.type !== "pct") score += 12;
+
+        // Time-limited promos score higher (urgency)
+        if (p.ends && p.ends !== "Ongoing" && p.ends !== "Limited" && p.ends !== "Recurring") score += 20;
+
+        // Brands that rarely go on sale get bonus
+        const rareSale = ["Dyson","Patagonia","Lululemon","SkinCeuticals","Bloomingdale's","Nordstrom"];
+        if (rareSale.includes(b)) score += 25;
+
+        // Extra promo detail = more going on = more interesting
+        if (p.extra) score += 5;
+    }
+
+    // Penalize brands that are ALWAYS on sale
+    const alwaysOnSale = ["Walmart","AliExpress","Temu"];
+    if (alwaysOnSale.includes(b)) score -= 15;
+
+    // Penalize brands with no real deal (off=0 or null with no ev)
+    if (p && promoValue(p) === 0) score -= 20;
+
+    return score;
+}
+
+// =========================================================
+// RENDER
+// =========================================================
+
+function renderTop3() {
+    // Anomaly-based ranking — surface surprising/unusual deals, not just highest %
+    const allBrandsWithDeals = [...new Set([...Object.keys(CO), ...Object.keys(PROMOS)])];
+    const ranked = allBrandsWithDeals
+        .filter(b => PROMOS[b] && promoValue(PROMOS[b]) > 0)
+        .map(b => {
+            const cb = bestCashback(b);
+            const p = PROMOS[b];
+            return { brand: b, promoOff: promoValue(p), cashback: cb.rate, cbSource: cb.source, cbColor: cb.color, score: anomalyScore(b) };
+        })
+        .sort((a,b) => b.score - a.score)
+        .slice(0, 3);
+
+    document.getElementById("top-deals").innerHTML = ranked.map((t, i) => {
+        const d = CO[t.brand];
+        const p = PROMOS[t.brand];
+        const s = sig(t.brand);
+        const cbLink = t.cbSource === "Capital One" ? coLink(t.brand) : rakLink(t.brand);
+        const rareSale = ["Dyson","Patagonia","Lululemon","SkinCeuticals","Bloomingdale's","Nordstrom"];
+        const isRare = rareSale.includes(t.brand);
+        const headline = dealHeadline(p);
+        const typeBadge = dealTypeBadge(p);
+
+        return `
+        <a href="${url(t.brand)}" target="_blank" rel="noopener" class="top-deal">
+            <span class="top-deal-rank">${i+1}</span>
+            <div class="top-deal-brand">
+                ${icon(t.brand, 28)}
+                <h3>${t.brand}</h3>
+            </div>
+            ${isRare ? '<div style="font-family:var(--font-mono);font-size:0.6rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem">Rare sale event</div>' : ''}
+            ${typeBadge ? `<div style="margin-bottom:0.4rem">${typeBadge}</div>` : ''}
+            <div class="top-deal-rate green">${headline}</div>
+            <div class="top-deal-detail">${p.promo}</div>
+            ${p.tiers ? `<div style="font-size:0.68rem;color:var(--charcoal);margin-top:0.3rem;line-height:1.5;background:var(--fog);padding:0.4rem 0.6rem;border-radius:6px">${p.tiers.split('·').map(t=>t.trim()).join('<br>')}</div>` : ''}
+            ${p.extra ? `<div style="font-size:0.68rem;color:var(--ash);margin-top:0.25rem;font-style:italic">${p.extra}</div>` : ''}
+            <div style="margin-top:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+                <span style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;color:${t.cbColor}">+ ${t.cashback}% via ${t.cbSource}</span>
+                <span class="tag" style="background:var(--amber-soft);color:var(--amber);font-size:0.55rem">from email</span>
+            </div>
+            ${p.code ? `<div style="font-size:0.72rem;color:var(--ash);margin-top:0.25rem">Code: <strong>${p.code}</strong></div>` : ''}
+            <div class="top-deal-tags" style="margin-top:0.6rem">
+                <span class="tag ${s.c}">${s.l}</span>
+                <span class="tag tag-cat">${cat(t.brand)}</span>
+                ${p.ends && p.ends !== "Ongoing" && p.ends !== "Recurring" ? `<span class="tag" style="background:var(--red-soft);color:var(--red)">Ends ${p.ends}</span>` : ''}
+            </div>
+            <div style="display:flex;gap:0.4rem;margin-top:0.7rem;">
+                <span onclick="event.preventDefault();window.open('${cbLink}','_blank')" style="font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:${t.cbColor};background:var(--fog);padding:0.25rem 0.5rem;border-radius:5px;cursor:pointer">Activate ${t.cbSource} &rarr;</span>
+            </div>
+        </a>`;
+    }).join("");
+}
+
+function renderFilters() {
+    const cats = ["All", ...new Set(Object.keys(CO).map(b => cat(b)))].sort((a,b) => a === "All" ? -1 : a.localeCompare(b));
+    // Add signal filters
+    const filters = [...cats, "Buy Now", "Wait"];
+    document.getElementById("filters").innerHTML = filters.map((f,i) =>
+        `<button class="filter-pill${i===0?' active':''}" onclick="applyFilter('${f}',this)">${f}</button>`
+    ).join("");
+}
+
+function applyFilter(f, btn) {
+    document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll("#deals-list .deal").forEach(el => {
+        if (f === "All") { el.style.display = ""; return; }
+        if (f === "Buy Now") { el.style.display = el.dataset.signal === "buy" ? "" : "none"; return; }
+        if (f === "Wait") { el.style.display = el.dataset.signal === "wait" ? "" : "none"; return; }
+        el.style.display = el.dataset.cat === f ? "" : "none";
+    });
+}
+
+function renderDeals() {
+    const brands = Object.keys(CO).sort((a,b) => {
+        // Brands with active promos first, then by cashback rate
+        const pa = PROMOS[a] ? 1 : 0, pb = PROMOS[b] ? 1 : 0;
+        if (pa !== pb) return pb - pa;
+        const o = {buy:0,ok:1,wait:2};
+        const sa = sig(a).s, sb = sig(b).s;
+        if (o[sa] !== o[sb]) return o[sa] - o[sb];
+        return bestCashback(b).rate - bestCashback(a).rate;
+    });
+
+    document.getElementById("deals-list").innerHTML = brands.map(b => {
+        const d = CO[b];
+        const s = sig(b);
+        const cb = bestCashback(b);
+        const p = PROMOS[b];
+        const pct = d.hi > d.lo ? ((d.cur - d.lo) / (d.hi - d.lo)) * 100 : 50;
+        const fillColor = s.s === "buy" ? "var(--green)" : s.s === "wait" ? "var(--red)" : "var(--amber)";
+        const rateColor = s.s === "buy" ? "color:var(--green)" : s.s === "wait" ? "color:var(--red)" : "color:var(--amber)";
+
+        const tbadge = dealTypeBadge(p);
+        const promoHtml = p ? `<div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:0.3rem">${tbadge ? tbadge + ' ' : ''}${p.promo}${p.code ? ` — <span style="color:var(--charcoal)">${p.code}</span>` : ''}</div>${p.extra ? `<div style="font-size:0.66rem;color:var(--ash);margin-top:0.15rem">${p.extra}</div>` : ''}${p.tiers ? `<div style="font-size:0.64rem;color:var(--charcoal);margin-top:0.15rem;background:var(--fog);padding:0.25rem 0.5rem;border-radius:4px">${p.tiers}</div>` : ''}` : '';
+        const cbLinkUrl = cb.source === "Capital One" ? coLink(b) : rakLink(b);
+        const saleTag = p && promoValue(p) > 0;
+
+        return `
+        <div class="deal" data-signal="${s.s}" data-cat="${cat(b)}">
+            <div class="deal-icon">${icon(b)}</div>
+            <div class="deal-body">
+                <div class="deal-name">
+                    <a href="${url(b)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${b}</a>
+                    ${saleTag ? '<span class="tag" style="background:var(--green-soft);color:var(--green);font-size:0.58rem;vertical-align:middle">SALE</span>' : ''}
+                </div>
+                <div class="deal-meta">
+                    Best: ${cb.rate}% via
+                    <a href="${cbLinkUrl}" target="_blank" rel="noopener" style="color:${cb.color};font-weight:600;text-decoration:none" onclick="event.stopPropagation()">${cb.source}</a>
+                    <span style="opacity:0.5">(CapOne ${d.cur}% · Rakuten ${rakPct(b)}%)</span>
+                </div>
+                ${promoHtml}
+                <div class="deal-tags">
+                    <span class="tag ${s.c}">${s.l}</span>
+                    <span class="tag tag-cat">${cat(b)}</span>
+                    ${p && p.ends && p.ends !== "Ongoing" && p.ends !== "Recurring" ? `<span class="tag" style="background:var(--amber-soft);color:var(--amber)">Ends ${p.ends}</span>` : ''}
+                    ${cb.source === "Capital One" ? '<span class="tag" style="background:var(--fog);color:var(--ash);font-size:0.55rem" title="Rate from email — website may show lower. Check email first or use browser extension.">email rate</span>' : ''}
+                </div>
+            </div>
+            <div class="deal-right">
+                <div class="deal-pct" style="${rateColor}">${cb.rate}%</div>
+                <a href="${cbLinkUrl}" target="_blank" rel="noopener" class="deal-signal-text" style="color:${cb.color};text-decoration:none;cursor:pointer" onclick="event.stopPropagation()">${cb.source} &rarr;</a>
+                <div class="deal-range">
+                    <div class="deal-range-bar">
+                        <div class="deal-range-fill" style="width:${pct}%;background:${fillColor}"></div>
+                        <div class="deal-range-dot" style="left:${pct}%;border-color:${fillColor}"></div>
+                    </div>
+                    <span class="deal-range-text">${d.lo}–${d.hi}%</span>
+                </div>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+
+// =========================================================
+// LINE CHART — Rate Tracker (like airline price tracking)
+// =========================================================
+const MONTHS = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let currentChartBrand = "Dyson";
+
+function initChart() {
+    const sel = document.getElementById("chart-brand");
+    sel.innerHTML = Object.keys(CO).sort().map(b =>
+        `<option value="${b}"${b==="Dyson"?" selected":""}>${b}</option>`).join("");
+
+    // Quick-pick pills
+    const popular = ["Dyson","Gap","Dermstore","Sephora","Bloomingdale's","Macy's","Lululemon","Patagonia","Carter's"];
+    document.getElementById("brand-quick-pills").innerHTML = popular.map(b =>
+        `<button class="bq-pill${b==="Dyson"?" active":""}" onclick="pickBrand('${b}')">${b}</button>`
+    ).join("");
+
+    drawChart();
+}
+
+function pickBrand(b) {
+    document.getElementById("chart-brand").value = b;
+    document.querySelectorAll(".bq-pill").forEach(p => p.classList.toggle("active", p.textContent === b));
+    drawChart();
+}
+
+function drawChart() {
+    const b = document.getElementById("chart-brand").value;
+    currentChartBrand = b;
+    const d = CO[b]; if(!d) return;
+
+    // Update quick pills active state
+    document.querySelectorAll(".bq-pill").forEach(p => p.classList.toggle("active", p.textContent === b));
+
+    const data = d.h;
+    const avgVal = avg(b);
+    const s = sig(b);
+
+    // Stats row
+    document.getElementById("chart-stats").innerHTML = `
+        <div class="chart-stat"><span class="cs-label">Current </span><span class="cs-val" style="color:var(--${s.s==='buy'?'green':s.s==='wait'?'red':'amber'})">${d.cur}%</span></div>
+        <div class="chart-stat"><span class="cs-label">Avg </span><span class="cs-val">${avgVal.toFixed(1)}%</span></div>
+        <div class="chart-stat"><span class="cs-label">Low </span><span class="cs-val" style="color:var(--red)">${d.lo}%</span></div>
+        <div class="chart-stat"><span class="cs-label">High </span><span class="cs-val" style="color:var(--green)">${d.hi}%</span></div>
+        <div class="chart-stat"><span class="cs-label">Signal </span><span class="cs-val" style="color:var(--${s.s==='buy'?'green':s.s==='wait'?'red':'amber'})">${s.l}</span></div>
+    `;
+
+    // SVG dimensions
+    const W = 700, H = 220;
+    const padL = 45, padR = 20, padT = 20, padB = 35;
+    const cw = W - padL - padR;
+    const ch = H - padT - padB;
+
+    const maxR = Math.max(d.hi * 1.15, ...data.map(x => x.r));
+    const minR = 0;
+
+    function x(i) { return padL + (i / (data.length - 1)) * cw; }
+    function y(r) { return padT + ch - ((r - minR) / (maxR - minR)) * ch; }
+
+    // Grid lines
+    const gridSteps = 5;
+    let gridLines = '';
+    for (let i = 0; i <= gridSteps; i++) {
+        const val = minR + (maxR - minR) * (i / gridSteps);
+        const yy = y(val);
+        gridLines += `<line x1="${padL}" x2="${W-padR}" y1="${yy}" y2="${yy}" class="lc-grid-line"/>`;
+        gridLines += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="lc-y-label">${val.toFixed(0)}%</text>`;
+    }
+
+    // Avg line
+    const avgY = y(avgVal);
+    gridLines += `<line x1="${padL}" x2="${W-padR}" y1="${avgY}" y2="${avgY}" class="lc-avg-line"/>`;
+    gridLines += `<text x="${W-padR+4}" y="${avgY+3}" class="lc-y-label" fill="var(--accent)" font-size="9">avg</text>`;
+
+    // X labels
+    let xLabels = data.map((pt, i) => {
+        const label = MONTHS[parseInt(pt.d.split("-")[1])] + " '" + pt.d.split("-")[0].slice(2);
+        return `<text x="${x(i)}" y="${H-8}" text-anchor="middle" class="lc-label">${label}</text>`;
+    }).join("");
+
+    // Line + area path
+    const lineColor = s.s === "buy" ? "var(--green)" : s.s === "wait" ? "var(--red)" : "var(--accent)";
+    const areaColor = s.s === "buy" ? "oklch(52% 0.17 155 / 0.08)" : s.s === "wait" ? "oklch(52% 0.2 25 / 0.08)" : "oklch(55% 0.22 12 / 0.08)";
+
+    const linePts = data.map((pt, i) => `${x(i)},${y(pt.r)}`).join(" ");
+    const areaPath = `M${x(0)},${y(data[0].r)} ` +
+        data.map((pt, i) => `L${x(i)},${y(pt.r)}`).join(" ") +
+        ` L${x(data.length-1)},${padT+ch} L${x(0)},${padT+ch} Z`;
+
+    // Dots
+    const dots = data.map((pt, i) => {
+        const dotColor = pt.r >= d.hi * 0.75 ? "var(--green)" : pt.r <= d.lo * 1.3 ? "var(--red)" : lineColor;
+        return `<circle cx="${x(i)}" cy="${y(pt.r)}" r="5" fill="${dotColor}" stroke="var(--white)" stroke-width="2.5" class="lc-dot"
+            onmouseenter="showTip(evt, '${MONTHS[parseInt(pt.d.split('-')[1])]} ${pt.d.split('-')[0]}: ${pt.r}%')"
+            onmouseleave="hideTip()"/>`;
+    }).join("");
+
+    document.getElementById("line-chart").innerHTML = `
+        ${gridLines}
+        <path d="${areaPath}" fill="${areaColor}" class="lc-area"/>
+        <polyline points="${linePts}" class="lc-line" stroke="${lineColor}"/>
+        ${dots}
+        ${xLabels}
+    `;
+}
+
+function showTip(evt, text) {
+    const tip = document.getElementById("lc-tooltip");
+    const svg = document.getElementById("line-chart");
+    const rect = svg.getBoundingClientRect();
+    const cx = evt.target.cx.baseVal.value;
+    const cy = evt.target.cy.baseVal.value;
+    // Convert SVG coords to pixel coords
+    const px = (cx / 700) * rect.width;
+    const py = (cy / 220) * rect.height;
+    tip.textContent = text;
+    tip.style.left = (px - 30) + "px";
+    tip.style.top = (py - 38) + "px";
+    tip.classList.add("show");
+}
+function hideTip() {
+    document.getElementById("lc-tooltip").classList.remove("show");
+}
+
+// =========================================================
+// CASHBACK PORTAL — combined, ranked high to low
+// =========================================================
+function renderPortal() {
+    // Build unified list — Capital One & Rakuten are EXCLUSIVE (pick best)
+    const allBrands = [...new Set([
+        ...Object.keys(CO),
+        ...RAK.map(r => r.brand)
+    ])];
+
+    const rows = allBrands.map(b => {
+        const co = CO[b] ? CO[b].cur : 0;
+        const rk = rakPct(b);
+        const best = Math.max(co, rk);
+        const winner = co >= rk ? "co" : "rak";
+        const promo = PROMOS[b];
+        return { brand: b, co, rk, best, winner, rkRaw: RAK.find(r => r.brand === b)?.cb || "—", promo };
+    }).sort((a, b) => b.best - a.best);
+
+    document.getElementById("portal-list").innerHTML = rows.map((r, i) => {
+        const winnerLink = r.winner === "co" ? coLink(r.brand) : rakLink(r.brand);
+        return `
+        <div class="portal-row" onclick="window.open('${winnerLink}','_blank')">
+            <span class="portal-rank">${i + 1}</span>
+            ${icon(r.brand, 24)}
+            <div class="portal-brand">
+                <h4>${r.brand} ${r.promo ? '<span class="tag" style="background:var(--green-soft);color:var(--green);font-size:0.55rem;vertical-align:middle">SALE</span>' : ''}</h4>
+                <span class="portal-cat">${cat(r.brand)}${r.promo ? ' · ' + r.promo.promo.split('—')[0].trim() : ''}</span>
+            </div>
+            <div class="portal-rates">
+                <a href="${coLink(r.brand)}" target="_blank" rel="noopener" class="portal-rate-chip prc-co" style="${r.winner==='co'?'outline:2px solid var(--blue);':'opacity:0.5;'}text-decoration:none" onclick="event.stopPropagation()">${r.co > 0 ? r.co + '%' : '—'}</a>
+                <a href="${rakLink(r.brand)}" target="_blank" rel="noopener" class="portal-rate-chip prc-rak" style="${r.winner==='rak'?'outline:2px solid var(--pink);':'opacity:0.5;'}text-decoration:none" onclick="event.stopPropagation()">${r.rkRaw}</a>
+            </div>
+            <span class="portal-total">${r.best}%</span>
+        </div>`;
+    }).join("");
+}
+
+function renderBrands() {
+    document.getElementById("brands-wrap").innerHTML = brandsPurchased.sort().map(b => {
+        const active = CO[b] || RAK.find(r => r.brand === b);
+        return `<a href="${url(b)}" target="_blank" rel="noopener" class="brand-pill">
+            ${icon(b, 14)} ${b}
+            <span class="dot" style="background:${active ? 'var(--green)' : 'var(--mist)'}"></span>
+        </a>`;
+    }).join("");
+}
+
+// Scroll reveal
+function initReveal() {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
+    }, { threshold: 0.1 });
+    document.querySelectorAll("[data-reveal]").forEach(el => obs.observe(el));
+}
+
+// Boot
+renderTop3();
+renderFilters();
+renderDeals();
+initChart();
+renderPortal();
+renderBrands();
+initReveal();
+</script>
+</body>
+</html>
