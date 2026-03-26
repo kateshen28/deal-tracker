@@ -1203,27 +1203,15 @@ function renderTop3() {
             <div class="top-deal-detail">${p.promo}</div>
             ${p.tiers ? `<div style="font-size:0.68rem;color:var(--charcoal);margin-top:0.3rem;line-height:1.5;background:var(--fog);padding:0.4rem 0.6rem;border-radius:6px">${p.tiers.split('·').map(t=>t.trim()).join('<br>')}</div>` : ''}
             ${p.extra ? `<div style="font-size:0.68rem;color:var(--ash);margin-top:0.25rem;font-style:italic">${p.extra}</div>` : ''}
-            <div style="margin-top:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-                <span style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;color:${t.cbColor}">+ ${t.cashback}% via ${t.cbSource}</span>
-                <span class="tag" style="background:var(--amber-soft);color:var(--amber);font-size:0.55rem">from email</span>
-            </div>
-            ${p.code ? `<div style="font-size:0.72rem;color:var(--ash);margin-top:0.25rem">Code: <strong>${p.code}</strong></div>` : ''}
-            <div class="top-deal-tags" style="margin-top:0.6rem">
-                <span class="tag ${s.c}">${s.l}</span>
-                <span class="tag tag-cat">${cat(t.brand)}</span>
-                ${p.ends && p.ends !== "Ongoing" && p.ends !== "Recurring" ? `<span class="tag" style="background:var(--red-soft);color:var(--red)">Ends ${p.ends}</span>` : ''}
-            </div>
-            <div style="display:flex;gap:0.4rem;margin-top:0.7rem;">
-                <span onclick="event.preventDefault();window.open('${cbLink}','_blank')" style="font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:${t.cbColor};background:var(--fog);padding:0.25rem 0.5rem;border-radius:5px;cursor:pointer">Activate ${t.cbSource} &rarr;</span>
-            </div>
+            ${p.code ? `<div style="font-size:0.72rem;color:var(--ash);margin-top:0.4rem">Code: <strong>${p.code}</strong></div>` : ''}
+            ${p.ends && p.ends !== "Ongoing" && p.ends !== "Recurring" ? `<div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--ash);margin-top:0.4rem">Ends ${p.ends}</div>` : ''}
         </a>`;
     }).join("");
 }
 
 function renderFilters() {
     const cats = ["All", ...new Set(Object.keys(CO).map(b => cat(b)))].sort((a,b) => a === "All" ? -1 : a.localeCompare(b));
-    // Add signal filters
-    const filters = [...cats, "Buy Now", "Wait"];
+    const filters = cats;
     document.getElementById("filters").innerHTML = filters.map((f,i) =>
         `<button class="filter-pill${i===0?' active':''}" onclick="applyFilter('${f}',this)">${f}</button>`
     ).join("");
@@ -1258,46 +1246,32 @@ function renderDeals() {
         const p = PROMOS[b];
         const pct = d.hi > d.lo ? ((d.cur - d.lo) / (d.hi - d.lo)) * 100 : 50;
         const fillColor = s.s === "buy" ? "var(--green)" : s.s === "wait" ? "var(--red)" : "var(--amber)";
-        const rateColor = s.s === "buy" ? "color:var(--green)" : s.s === "wait" ? "color:var(--red)" : "color:var(--amber)";
-
         const tbadge = dealTypeBadge(p);
-        const promoHtml = p ? `<div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:0.3rem">${tbadge ? tbadge + ' ' : ''}${p.promo}${p.code ? ` — <span style="color:var(--charcoal)">${p.code}</span>` : ''}</div>${p.extra ? `<div style="font-size:0.66rem;color:var(--ash);margin-top:0.15rem">${p.extra}</div>` : ''}${p.tiers ? `<div style="font-size:0.64rem;color:var(--charcoal);margin-top:0.15rem;background:var(--fog);padding:0.25rem 0.5rem;border-radius:4px">${p.tiers}</div>` : ''}` : '';
-        const cbLinkUrl = cb.source === "Capital One" ? coLink(b) : rakLink(b);
-        const saleTag = p && promoValue(p) > 0;
+        const promoHtml = p && promoValue(p) > 0 ? `<div style="font-size:0.72rem;color:var(--charcoal);font-weight:600;margin-top:0.3rem">${tbadge ? tbadge + ' ' : ''}${p.promo}${p.code ? ` — <span style="color:var(--ash)">${p.code}</span>` : ''}</div>${p.extra ? `<div style="font-size:0.66rem;color:var(--ash);margin-top:0.15rem">${p.extra}</div>` : ''}${p.tiers ? `<div style="font-size:0.64rem;color:var(--charcoal);margin-top:0.15rem;background:var(--fog);padding:0.25rem 0.5rem;border-radius:4px">${p.tiers}</div>` : ''}` : '';
+        const brandUrl = url(b);
 
         return `
-        <div class="deal" data-signal="${s.s}" data-cat="${cat(b)}">
+        <a href="${brandUrl}" target="_blank" rel="noopener" class="deal" data-signal="${s.s}" data-cat="${cat(b)}" style="text-decoration:none;color:inherit">
             <div class="deal-icon">${icon(b)}</div>
             <div class="deal-body">
-                <div class="deal-name">
-                    <a href="${url(b)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${b}</a>
-                    ${saleTag ? '<span class="tag" style="background:var(--green-soft);color:var(--green);font-size:0.58rem;vertical-align:middle">SALE</span>' : ''}
-                </div>
+                <div class="deal-name">${b}</div>
                 <div class="deal-meta">
-                    Best: ${cb.rate}% via
-                    <a href="${cbLinkUrl}" target="_blank" rel="noopener" style="color:${cb.color};font-weight:600;text-decoration:none" onclick="event.stopPropagation()">${cb.source}</a>
-                    <span style="opacity:0.5">(CapOne ${d.cur}% · Rakuten ${rakPct(b)}%)</span>
+                    CapOne ${d.cur}% · Rakuten ${rakPct(b)}%
                 </div>
                 ${promoHtml}
-                <div class="deal-tags">
-                    <span class="tag ${s.c}">${s.l}</span>
-                    <span class="tag tag-cat">${cat(b)}</span>
-                    ${p && p.ends && p.ends !== "Ongoing" && p.ends !== "Recurring" ? `<span class="tag" style="background:var(--amber-soft);color:var(--amber)">Ends ${p.ends}</span>` : ''}
-                    ${cb.source === "Capital One" ? '<span class="tag" style="background:var(--fog);color:var(--ash);font-size:0.55rem" title="Rate from email — website may show lower. Check email first or use browser extension.">email rate</span>' : ''}
-                </div>
             </div>
             <div class="deal-right">
-                <div class="deal-pct" style="${rateColor}">${cb.rate}%</div>
-                <a href="${cbLinkUrl}" target="_blank" rel="noopener" class="deal-signal-text" style="color:${cb.color};text-decoration:none;cursor:pointer" onclick="event.stopPropagation()">${cb.source} &rarr;</a>
+                <div class="deal-pct" style="color:var(--ink)">${cb.rate}%</div>
+                <div class="deal-signal-text" style="color:var(--ash)">${cb.source}</div>
                 <div class="deal-range">
                     <div class="deal-range-bar">
-                        <div class="deal-range-fill" style="width:${pct}%;background:${fillColor}"></div>
-                        <div class="deal-range-dot" style="left:${pct}%;border-color:${fillColor}"></div>
+                        <div class="deal-range-fill" style="width:${pct}%;background:var(--accent)"></div>
+                        <div class="deal-range-dot" style="left:${pct}%;border-color:var(--accent)"></div>
                     </div>
                     <span class="deal-range-text">${d.lo}–${d.hi}%</span>
                 </div>
             </div>
-        </div>`;
+        </a>`;
     }).join("");
 }
 
@@ -1447,17 +1421,18 @@ function renderPortal() {
 
     document.getElementById("portal-list").innerHTML = rows.map((r, i) => {
         const winnerLink = r.winner === "co" ? coLink(r.brand) : rakLink(r.brand);
+        const brandUrl = url(r.brand);
         return `
-        <div class="portal-row" onclick="window.open('${winnerLink}','_blank')">
+        <div class="portal-row" onclick="window.open('${brandUrl}','_blank')">
             <span class="portal-rank">${i + 1}</span>
             ${icon(r.brand, 24)}
             <div class="portal-brand">
-                <h4>${r.brand} ${r.promo ? '<span class="tag" style="background:var(--green-soft);color:var(--green);font-size:0.55rem;vertical-align:middle">SALE</span>' : ''}</h4>
-                <span class="portal-cat">${cat(r.brand)}${r.promo ? ' · ' + r.promo.promo.split('—')[0].trim() : ''}</span>
+                <h4>${r.brand} ${r.promo && promoValue(r.promo) > 0 ? '<span class="tag" style="background:var(--green-soft);color:var(--green);font-size:0.55rem;vertical-align:middle">SALE</span>' : ''}</h4>
+                <span class="portal-cat">${cat(r.brand)}${r.promo && promoValue(r.promo) > 0 ? ' · ' + r.promo.promo.split('—')[0].trim() : ''}</span>
             </div>
             <div class="portal-rates">
-                <a href="${coLink(r.brand)}" target="_blank" rel="noopener" class="portal-rate-chip prc-co" style="${r.winner==='co'?'outline:2px solid var(--blue);':'opacity:0.5;'}text-decoration:none" onclick="event.stopPropagation()">${r.co > 0 ? r.co + '%' : '—'}</a>
-                <a href="${rakLink(r.brand)}" target="_blank" rel="noopener" class="portal-rate-chip prc-rak" style="${r.winner==='rak'?'outline:2px solid var(--pink);':'opacity:0.5;'}text-decoration:none" onclick="event.stopPropagation()">${r.rkRaw}</a>
+                <span class="portal-rate-chip prc-co" style="${r.winner==='co'?'outline:2px solid var(--blue);':'opacity:0.5;'}">${r.co > 0 ? r.co + '%' : '—'}</span>
+                <span class="portal-rate-chip prc-rak" style="${r.winner==='rak'?'outline:2px solid var(--pink);':'opacity:0.5;'}">${r.rkRaw}</span>
             </div>
             <span class="portal-total">${r.best}%</span>
         </div>`;
