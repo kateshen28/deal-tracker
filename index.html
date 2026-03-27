@@ -965,9 +965,8 @@ const PROMOS = {
     "Dyson":          { promo: "Dyson Spring Sale — up to $600 off + 20% off selected items", off: 20, code: null, ends: "Apr 7", type: "pct",
                         extra: "Up to $200 off selected hair care machines (ends Apr 4). Trade-In: 20% off at Dyson Store with any trade-in (thru May 3)" },
     "Carter's":       { promo: "Up to 60% off Easter styles + 50% off spring", off: 60, code: "FLASH20", ends: "Mar 31", type: "pct" },
-    "Sephora":        { promo: "Free gift samples with $30+ purchase + Beauty Insider perks", off: null, code: null, ends: "Ongoing", type: "gwp",
-                        badge: "Free Gifts w/ $30+", ev: 10,
-                        extra: "Text sign-up: 10% off next order. Rouge: 20% off sale events. VIB: 15% off sale events" },
+    "Sephora":        { promo: "Up to 30% off Sephora Beauty Collection + free samples", off: 30, code: null, ends: "Ongoing", type: "pct",
+                        extra: "VIB: 15% off sale events · Rouge: 20% off · Text sign-up: 10% off next order" },
     "Macy's":         { promo: "VIP Sale — up to 70% off clearance + extra 25% off", off: 70, code: "VIP", ends: "Mar 30", type: "pct" },
     "Bloomingdale's": { promo: "Spend & Get — up to $1,200 Gift Card with purchase", off: null, code: null, ends: "Recurring", type: "gc",
                         badge: "Spend $→ Gift Card", ev: 20,
@@ -979,8 +978,8 @@ const PROMOS = {
                         extra: "New customers: 15% off first order with code DERM15. Free shipping on $50+. Free gift w/ $200+ (choose 1)" },
     "Gap":            { promo: "Spring Sale — 40% off spring styles + extra 50% off clearance", off: 50, code: null, ends: "Ongoing", type: "pct" },
     "Lululemon":      { promo: "We Made Too Much — up to 50% off", off: 50, code: null, ends: "Ongoing", type: "pct" },
-    "Aritzia":        { promo: "New arrivals — no active sale", off: 0, code: null, ends: null, type: "pct" },
-    "Patagonia":      { promo: "Spring Web Specials — up to 50% off", off: 50, code: null, ends: "Limited", type: "pct" },
+    "Aritzia":        { promo: "Sale section — up to 50% off select styles", off: 50, code: null, ends: "Ongoing", type: "pct" },
+    "Patagonia":      { promo: "Spring Web Specials — up to 50% off incl. Down Sweater Jacket from $139", off: 50, code: null, ends: "Limited", type: "pct" },
     "IKEA":           { promo: "IKEA Family — 90-day price protection + up to 20% off select", off: 20, code: null, ends: "Apr 5", type: "pct" },
     "Walmart":        { promo: "Rollback deals — up to 65% off", off: 65, code: null, ends: "Ongoing", type: "pct" },
     "Chewy":          { promo: "50% off first autoship + treats under $10", off: 50, code: "$20 off $49+", ends: "Ongoing", type: "pct",
@@ -1038,16 +1037,17 @@ const CO = {
 };
 
 const RAK = [
-    { brand:"Gap",           cb:"10%",  d:"10% cashback during Spring promotion (was 6%)" },
-    { brand:"Macy's",        cb:"10%",  d:"10% cashback during Spring promotion (was 4%)" },
+    { brand:"Gap",           cb:"10%",  d:"10% cashback — Spring savings promo" },
+    { brand:"Macy's",        cb:"10%",  d:"10% cashback — Spring savings promo" },
     { brand:"H&M",           cb:"3%",   d:"3% cashback on full-price items" },
     { brand:"DoorDash",      cb:"$5",   d:"$5 bonus on first order this month" },
     { brand:"Chewy",         cb:"3.5%", d:"3.5% cashback on pet supplies" },
-    { brand:"Carter's",      cb:"10%",  d:"10% cashback during Spring promotion (was 4%)" },
+    { brand:"Carter's",      cb:"10%",  d:"10% cashback — Spring savings promo" },
+    { brand:"Janie and Jack",cb:"10%",  d:"10% cashback — Spring savings promo" },
     { brand:"IKEA",          cb:"2%",   d:"2% cashback on furniture & decor" },
-    { brand:"Dyson",         cb:"10%",  d:"10% cashback during Spring promotion (was 1%)" },
+    { brand:"Dyson",         cb:"10%",  d:"10% cashback — Spring savings promo" },
     { brand:"Walmart",       cb:"2.5%", d:"2.5% cashback on online orders" },
-    { brand:"Dermstore",     cb:"10%",  d:"10% cashback during Spring promotion (was 3%)" },
+    { brand:"Dermstore",     cb:"10%",  d:"10% cashback — Spring savings promo" },
     { brand:"SkinCeuticals", cb:"4%",   d:"4% cashback on premium skincare" },
     { brand:"Petco",         cb:"3%",   d:"3% cashback on pet essentials" },
     { brand:"Temu",          cb:"3%",   d:"3% cashback on all items" },
@@ -1058,7 +1058,6 @@ const RAK = [
     { brand:"Sephora",       cb:"4%",   d:"4% cashback on beauty" },
     { brand:"Bloomingdale's",cb:"6%",   d:"6% cashback + free shipping Loyallist" },
     { brand:"Nordstrom",     cb:"3%",   d:"3% cashback" },
-    { brand:"Janie and Jack",cb:"10%",  d:"10% cashback during Spring promotion (was 2%)" },
 ];
 
 // =========================================================
