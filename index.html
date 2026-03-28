@@ -795,7 +795,7 @@
             <div class="logo-text">DealTracker</div>
         </div>
         <div class="header-meta">
-            <span class="header-date">Mar 26, 2026</span>
+            <span class="header-date">Mar 28, 2026</span>
         </div>
     </div>
 </div>
@@ -881,7 +881,7 @@
     </div>
 
     <div class="footer">
-        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 26, 2026.
+        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 28, 2026.
     </div>
 </div>
 
@@ -959,27 +959,27 @@ const brandsPurchased = [
 
 // Deal types: pct = % off, gc = gift card, gwp = gift with purchase, bogo = BOGO, dollar = $ off, pts = points multiplier
 // "off" is the numeric % for scoring; "ev" (effective value) is used for non-% deals to score them
-// Data updated from Gmail scan — Mar 26, 2026
+// Data updated from Gmail scan — Mar 28, 2026
 
 const PROMOS = {
-    "Dyson":          { promo: "Owner Rewards — 20% off floorcare, air & lighting", off: 20, code: "OR26-xxxx (personalized)", ends: "Apr 4", type: "pct",
-                        extra: "Trade-In Event: bring any device to Dyson Store for 20% off (thru May 3)" },
-    "Carter's":       { promo: "Up to 50% off spring + 60% off Easter styles", off: 50, code: "20% off cart", ends: "Mar 31", type: "pct" },
-    "Sephora":        { promo: "15% off hair care + 50% off select beauty daily", off: 50, code: null, ends: "Mar 26", type: "pct",
-                        extra: "Daily deals rotate — check app for today's 50% off picks" },
-    "Macy's":         { promo: "VIP Sale — up to 70% off clearance + extra 25% off", off: 70, code: "25OFF", ends: "Mar 29", type: "pct" },
+    "Dyson":          { promo: "Dyson Spring Sale — up to $600 off + 20% off selected items", off: 20, code: null, ends: "Apr 7", type: "pct",
+                        extra: "Up to $200 off selected hair care machines (ends Apr 4). Trade-In: 20% off at Dyson Store with any trade-in (thru May 3). Free Dyson HushJet Purifier Compact with purchase of Purifier Big+Quiet BP04 (ends Mar 30)" },
+    "Carter's":       { promo: "Up to 60% off Easter styles + 50% off spring", off: 60, code: "FLASH20", ends: "Mar 31", type: "pct" },
+    "Sephora":        { promo: "Up to 50% off select beauty + 30% off Sephora Collection + free samples", off: 50, code: null, ends: "Ongoing", type: "pct",
+                        extra: "VIB: 15% off sale events · Rouge: 20% off · Text sign-up: 10% off next order" },
+    "Macy's":         { promo: "Spring Sale — up to 70% off clearance + extra 40% off with code", off: 70, code: "APPFINDS", ends: "Ongoing", type: "pct" },
     "Bloomingdale's": { promo: "Spend & Get — up to $1,200 Gift Card with purchase", off: null, code: null, ends: "Recurring", type: "gc",
                         badge: "Spend $→ Gift Card", ev: 20,
                         tiers: "$100→$25 GC · $300→$75 GC · $500→$150 GC · $1000→$300 GC" },
-    "SkinCeuticals":  { promo: "Free 4-piece gift set with orders $200+", off: null, code: null, ends: "Apr 2", type: "gwp",
-                        badge: "Free Gift w/ $200+", ev: 18,
-                        extra: "Choose from Gua Sha, serums & more — Vitamin C Day bundles 10% off" },
-    "Dermstore":      { promo: "Exclusive Oribe Event — 20% off bestsellers", off: 20, code: null, ends: "Mar 28", type: "pct",
-                        extra: "Oribe haircare only — limited brand event" },
-    "Gap":            { promo: "Up to 50% off + extra 50% off clearance", off: 50, code: "ADDON (extra 10%)", ends: "Mar 28", type: "pct" },
-    "Lululemon":      { promo: "We Made Too Much — up to 63% off", off: 63, code: null, ends: "Ongoing", type: "pct" },
-    "Aritzia":        { promo: "New arrivals — no active sale", off: 0, code: null, ends: null, type: "pct" },
-    "Patagonia":      { promo: "Spring Web Specials — up to 50% off", off: 50, code: null, ends: "Limited", type: "pct" },
+    "SkinCeuticals":  { promo: "Free gift w/ $175+ purchase at Dermstore", off: null, code: null, ends: "Ongoing", type: "gwp",
+                        badge: "Free Gift w/ $175+", ev: 15,
+                        extra: "Free Triple Lipid Restore ($11 value) w/ $175+; Free Retexturing Activator ($21 value) w/ $200+" },
+    "Dermstore":      { promo: "Up to 30% off sale + 15% off first order for new customers", off: 30, code: "DERM15", ends: "Ongoing", type: "pct",
+                        extra: "New customers: 15% off first order with code DERM15. Free shipping on $50+. Free gift w/ $200+ (choose 1)" },
+    "Gap":            { promo: "Spring Sale — extra 50% off clearance + spring styles on markdown", off: 50, code: null, ends: "Ongoing", type: "pct" },
+    "Lululemon":      { promo: "We Made Too Much — up to 50% off", off: 50, code: null, ends: "Ongoing", type: "pct" },
+    "Aritzia":        { promo: "Sale section — up to 50% off select styles", off: 50, code: null, ends: "Ongoing", type: "pct" },
+    "Patagonia":      { promo: "Spring Web Specials — up to 50% off incl. Down Sweater Jacket from $139", off: 50, code: null, ends: "Limited", type: "pct" },
     "IKEA":           { promo: "IKEA Family — 90-day price protection + up to 20% off select", off: 20, code: null, ends: "Apr 5", type: "pct" },
     "Walmart":        { promo: "Rollback deals — up to 65% off", off: 65, code: null, ends: "Ongoing", type: "pct" },
     "Chewy":          { promo: "50% off first autoship + treats under $10", off: 50, code: "$20 off $49+", ends: "Ongoing", type: "pct",
@@ -998,9 +998,9 @@ const CO = {
                         h:[{d:"2025-09",r:7.5},{d:"2025-10",r:10},{d:"2025-11",r:15},{d:"2025-12",r:24},{d:"2026-01",r:20},{d:"2026-02",r:24},{d:"2026-03",r:5}], lo:3.5, hi:24 },
     "Carter's":       { cur:20,   detail:"20% reward", exp:null,
                         h:[{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
-    "IKEA":           { cur:5,    detail:"5% reward", exp:null,
-                        h:[{d:"2025-09",r:5},{d:"2025-11",r:5.5},{d:"2026-01",r:5},{d:"2026-03",r:5}], lo:5, hi:5.5 },
-    "Chewy":          { cur:4,    detail:"4% reward", exp:"Mar 28, 2026",
+    "IKEA":           { cur:4,    detail:"4% reward", exp:null,
+                        h:[{d:"2025-09",r:5},{d:"2025-11",r:5.5},{d:"2026-01",r:5},{d:"2026-03",r:4}], lo:4, hi:5.5 },
+    "Chewy":          { cur:4,    detail:"4% reward", exp:"Mar 31, 2026",
                         h:[{d:"2025-08",r:3},{d:"2025-10",r:4},{d:"2025-12",r:5},{d:"2026-02",r:4},{d:"2026-03",r:4}], lo:3, hi:5 },
     "Gap":            { cur:15,   detail:"15% reward", exp:null,
                         h:[{d:"2025-08",r:10},{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:15},{d:"2026-03",r:15}], lo:10, hi:20 },
@@ -1034,6 +1034,8 @@ const CO = {
                         h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:12}], lo:8, hi:12 },
     "Nordstrom":      { cur:6,    detail:"6% reward", exp:null,
                         h:[{d:"2025-10",r:4},{d:"2025-12",r:8},{d:"2026-02",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
+    "DoorDash":       { cur:30,   detail:"Up to 30% back (home improvement promo)", exp:null,
+                        h:[{d:"2026-03",r:30}], lo:30, hi:30 },
 };
 
 const RAK = [
