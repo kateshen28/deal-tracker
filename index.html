@@ -795,7 +795,7 @@
             <div class="logo-text">DealTracker</div>
         </div>
         <div class="header-meta">
-            <span class="header-date">Mar 28, 2026</span>
+            <span class="header-date">Mar 29, 2026</span>
         </div>
     </div>
 </div>
@@ -881,7 +881,7 @@
     </div>
 
     <div class="footer">
-        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 28, 2026.
+        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 29, 2026.
     </div>
 </div>
 
@@ -959,18 +959,17 @@ const brandsPurchased = [
 
 // Deal types: pct = % off, gc = gift card, gwp = gift with purchase, bogo = BOGO, dollar = $ off, pts = points multiplier
 // "off" is the numeric % for scoring; "ev" (effective value) is used for non-% deals to score them
-// Data updated from Gmail scan — Mar 28, 2026
+// Data updated from Gmail scan — Mar 29, 2026
 
 const PROMOS = {
     "Dyson":          { promo: "Dyson Spring Sale — up to $600 off + 20% off selected items", off: 20, code: null, ends: "Apr 7", type: "pct",
                         extra: "Up to $200 off selected hair care machines (ends Apr 4). Trade-In: 20% off at Dyson Store with any trade-in (thru May 3). Free Dyson HushJet Purifier Compact with purchase of Purifier Big+Quiet BP04 (ends Mar 30)" },
     "Carter's":       { promo: "Up to 60% off Easter styles + 50% off spring", off: 60, code: "FLASH20", ends: "Mar 31", type: "pct" },
-    "Sephora":        { promo: "Up to 50% off select beauty + 30% off Sephora Collection + free samples", off: 50, code: null, ends: "Ongoing", type: "pct",
+    "Sephora":        { promo: "Up to 50% off select beauty + 30% off Sephora Collection + free DIOR mini with $40 spend", off: 50, code: "DIORPARFUM", ends: "Ongoing", type: "pct",
                         extra: "VIB: 15% off sale events · Rouge: 20% off · Text sign-up: 10% off next order" },
     "Macy's":         { promo: "Spring Sale — up to 70% off clearance + extra 40% off with code", off: 70, code: "APPFINDS", ends: "Ongoing", type: "pct" },
-    "Bloomingdale's": { promo: "Spend & Get — up to $1,200 Gift Card with purchase", off: null, code: null, ends: "Recurring", type: "gc",
-                        badge: "Spend $→ Gift Card", ev: 20,
-                        tiers: "$100→$25 GC · $300→$75 GC · $500→$150 GC · $1000→$300 GC" },
+    "Bloomingdale's": { promo: "Friends & Family Sale — sitewide savings event (3 days left!)", off: 20, code: null, ends: "Apr 1", type: "pct",
+                        extra: "Spend & Get also active: $100→$25 GC · $300→$75 GC · $500→$150 GC · $1000→$300 GC" },
     "SkinCeuticals":  { promo: "Free gift w/ $175+ purchase at Dermstore", off: null, code: null, ends: "Ongoing", type: "gwp",
                         badge: "Free Gift w/ $175+", ev: 15,
                         extra: "Free Triple Lipid Restore ($11 value) w/ $175+; Free Retexturing Activator ($21 value) w/ $200+" },
@@ -994,7 +993,7 @@ const PROMOS = {
 };
 
 const CO = {
-    "Dyson":          { cur:5,    detail:"Wet & Robot 5%, Everything Else 3.5%", exp:"Mar 28, 2026",
+    "Dyson":          { cur:5,    detail:"Wet & Robot 5%, Everything Else 3.5%", exp:"Mar 31, 2026",
                         h:[{d:"2025-09",r:7.5},{d:"2025-10",r:10},{d:"2025-11",r:15},{d:"2025-12",r:24},{d:"2026-01",r:20},{d:"2026-02",r:24},{d:"2026-03",r:5}], lo:3.5, hi:24 },
     "Carter's":       { cur:20,   detail:"20% reward", exp:null,
                         h:[{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
@@ -1008,15 +1007,15 @@ const CO = {
                         h:[{d:"2025-08",r:4},{d:"2025-10",r:8},{d:"2025-12",r:13},{d:"2026-01",r:6},{d:"2026-03",r:4}], lo:4, hi:13 },
     "Macy's":         { cur:10,   detail:"Up to 18% on select categories", exp:null,
                         h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:18},{d:"2026-03",r:10}], lo:8, hi:18 },
-    "Dermstore":      { cur:40,   detail:"40-60% reward", exp:null,
-                        h:[{d:"2025-10",r:40},{d:"2025-12",r:60},{d:"2026-02",r:50},{d:"2026-03",r:40}], lo:40, hi:60 },
+    "Dermstore":      { cur:10,   detail:"10% reward (Everything Else); up to $18.50 on 12-mo subscriptions", exp:"Apr 1, 2026",
+                        h:[{d:"2025-10",r:40},{d:"2025-12",r:60},{d:"2026-02",r:50},{d:"2026-03",r:10}], lo:10, hi:60 },
     "Petco":          { cur:16.5, detail:"16.5% reward", exp:null,
                         h:[{d:"2025-11",r:12},{d:"2026-01",r:16.5},{d:"2026-03",r:16.5}], lo:12, hi:16.5 },
     "AliExpress":     { cur:25.5, detail:"25.5% reward", exp:null,
                         h:[{d:"2025-10",r:18},{d:"2025-12",r:25},{d:"2026-02",r:25.5},{d:"2026-03",r:25.5}], lo:18, hi:25.5 },
     "Janie and Jack": { cur:20,   detail:"11-20% reward", exp:null,
                         h:[{d:"2025-10",r:11},{d:"2025-12",r:20},{d:"2026-02",r:15},{d:"2026-03",r:20}], lo:11, hi:20 },
-    "Stride Rite":    { cur:20,   detail:"20% reward", exp:null,
+    "Stride Rite":    { cur:20,   detail:"20% reward", exp:"Apr 1, 2026",
                         h:[{d:"2025-11",r:15},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
     "Woom":           { cur:2,    detail:"2-3% reward", exp:null,
                         h:[{d:"2025-12",r:3},{d:"2026-02",r:2},{d:"2026-03",r:2}], lo:2, hi:3 },
@@ -1030,8 +1029,8 @@ const CO = {
                         h:[{d:"2025-10",r:3},{d:"2025-12",r:6},{d:"2026-02",r:5},{d:"2026-03",r:5}], lo:3, hi:6 },
     "Sephora":        { cur:8,    detail:"8% reward on beauty", exp:null,
                         h:[{d:"2025-09",r:5},{d:"2025-11",r:10},{d:"2026-01",r:8},{d:"2026-03",r:8}], lo:5, hi:10 },
-    "Bloomingdale's": { cur:12,   detail:"8-12% reward", exp:null,
-                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:12}], lo:8, hi:12 },
+    "Bloomingdale's": { cur:4,    detail:"4% reward", exp:"Apr 1, 2026",
+                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:4}], lo:4, hi:12 },
     "Nordstrom":      { cur:6,    detail:"6% reward", exp:null,
                         h:[{d:"2025-10",r:4},{d:"2025-12",r:8},{d:"2026-02",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
     "DoorDash":       { cur:30,   detail:"Up to 30% back (home improvement promo)", exp:null,
