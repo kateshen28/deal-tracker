@@ -795,7 +795,7 @@
             <div class="logo-text">DealTracker</div>
         </div>
         <div class="header-meta">
-            <span class="header-date">Mar 30, 2026</span>
+            <span class="header-date">Apr 4, 2026</span>
         </div>
     </div>
 </div>
@@ -881,7 +881,7 @@
     </div>
 
     <div class="footer">
-        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Mar 30, 2026.
+        DealTracker &mdash; personalized deal intelligence, sourced from your inbox. Updated Apr 4, 2026.
     </div>
 </div>
 
@@ -959,81 +959,81 @@ const brandsPurchased = [
 
 // Deal types: pct = % off, gc = gift card, gwp = gift with purchase, bogo = BOGO, dollar = $ off, pts = points multiplier
 // "off" is the numeric % for scoring; "ev" (effective value) is used for non-% deals to score them
-// Data updated from Gmail scan — Mar 30, 2026
+// Data updated from Gmail scan — Apr 4, 2026
 
 const PROMOS = {
-    "Dyson":          { promo: "Deals page up to 40% off + $600 off Gen5detect Absolute; up to $200 off hair care (ends Apr 4)", off: 40, code: null, ends: "Apr 7", type: "pct",
-                        extra: "Trade-In Event: bring any device to Dyson Store for 20% off (thru May 3)" },
-    "Carter's":       { promo: "50% off Easter & spring styles + extra 30% off clearance", off: 50, code: "FLASH20", ends: "Mar 31", type: "pct" },
-    "Sephora":        { promo: "Up to 50% off select beauty + 30% off Sephora Collection; free DIOR mini w/ $40+ (code DIORPARFUM)", off: 50, code: "DIORPARFUM", ends: "Ongoing", type: "pct",
-                        extra: "VIB: 15% off sale events · Rouge: 20% off · Text sign-up: 10% off next order" },
-    "Macy's":         { promo: "Up to 40% off sitewide (code APPFINDS) + 60% off home flash sale + 70% off clearance", off: 70, code: "APPFINDS", ends: "Ongoing", type: "pct" },
+    "Dyson":          { promo: "Outlet sale up to 40% off select models + Owner Rewards 20% off future purchases; Trade-In Event 20% off (thru May 3)", off: 40, code: null, ends: "May 3", type: "pct",
+                        extra: "Trade-In Event: bring any device to Dyson Store for 20% off (thru May 3); Newsletter signup: 20% off first order" },
+    "Carter's":       { promo: "20% off sitewide", off: 20, code: "FLASH20", ends: "Ongoing", type: "pct" },
+    "Sephora":        { promo: "Beauty Insider Sale: Rouge 20% off, VIB 15% off, Insiders 10% off + GWP codes: AESTURA (trial w/ $30+), ARMANISKIN (Armani trial w/ $40+), SERUMMUSTS (skincare trial w/ $30+)", off: 20, code: "AESTURA", ends: "Ongoing", type: "pct",
+                        extra: "VIB: 15% off · Rouge: 20% off · Text sign-up: 10% off next order" },
+    "Macy's":         { promo: "Up to 75% off Easter sale + 40% off apparel (code HOME) + 20% off (code VIP) + 70% off clearance + Star Money: extra $10 when shopping 2+ categories (thru Apr 30)", off: 75, code: "HOME", ends: "Apr 30", type: "pct" },
     "Bloomingdale's": { promo: "Long Weekend Sale — up to 75% off home decor + 15% off select beauty", off: 75, code: null, ends: "May 18", type: "pct",
                         extra: "Tiered Spend & Get still active: $100→$25 GC · $300→$75 GC · $500→$150 GC · $1000→$300 GC" },
-    "SkinCeuticals":  { promo: "Free gift w/ $175+ purchase at Dermstore", off: null, code: null, ends: "Apr 2", type: "gwp",
-                        badge: "Free Gift w/ $175+", ev: 15,
-                        extra: "Free Triple Lipid Restore ($11 value) w/ $175+; Free Retexturing Activator ($21 value) w/ $200+" },
+    "SkinCeuticals":  { promo: "2x Points on SkinCeuticals at Dermstore + free Resveratrol BE 4ml ($23 value) w/ $175+ + free CE Ferulic Serum sample ($25 value) w/ any purchase (ends Apr 4)", off: null, code: null, ends: "Apr 4", type: "gwp",
+                        badge: "2x Points + Free Gift", ev: 23,
+                        extra: "Free Resveratrol BE 4ml ($23 value) w/ $175+; free CE Ferulic Serum sample ($25 value) w/ any purchase; free Phloretin CF 15ml w/ $200+" },
     "Dermstore":      { promo: "Up to 30% off sale items + 15% off sitewide (code SASCHA)", off: 30, code: "SASCHA", ends: "Ongoing", type: "pct" },
     "Gap":            { promo: "Up to 50% off spring styles + extra 50% off clearance", off: 50, code: null, ends: "Ongoing", type: "pct" },
     "Lululemon":      { promo: "We Made Too Much — up to 63% off", off: 63, code: null, ends: "Ongoing", type: "pct" },
     "Aritzia":        { promo: "Sale section — up to 50% off select styles; new spring arrivals", off: 50, code: null, ends: "Ongoing", type: "pct" },
     "Patagonia":      { promo: "Spring Web Specials — up to 50% off incl. Down Sweater Jacket from $139", off: 50, code: null, ends: "Limited", type: "pct" },
-    "IKEA":           { promo: "IKEA Family — 90-day price protection + up to 20% off select", off: 20, code: null, ends: "Apr 5", type: "pct" },
+    "IKEA":           { promo: "IKEA Family: 10% off all As-Is items (thru Apr 30) + 20% off dinnerware (thru Apr 5) + 90-day price protection", off: 20, code: null, ends: "Apr 30", type: "pct" },
     "Walmart":        { promo: "Rollback deals — up to 65% off", off: 65, code: null, ends: "Ongoing", type: "pct" },
     "Chewy":          { promo: "50% off first autoship + treats under $10", off: 50, code: "$20 off $49+", ends: "Ongoing", type: "pct",
                         extra: "Dollar-off: $20 off orders $49+ for new autoship" },
     "Petco":          { promo: "Clearance — up to 50% off", off: 50, code: null, ends: "Ongoing", type: "pct",
                         extra: "Dollar-off: $15 off $75+" },
-    "Janie and Jack":  { promo: "Sale up to 60% off + 15% off with code", off: 60, code: "LUCKY15", ends: "Mar 31", type: "pct" },
+    "Janie and Jack":  { promo: "Sale up to 60% off + extra 20% off sale items; free shipping on $100+", off: 60, code: null, ends: "Ongoing", type: "pct" },
     "Stride Rite":    { promo: "BOGO 40% off + 25% off sandals", off: 40, code: null, ends: "Apr 13", type: "bogo",
                         badge: "BOGO 40% off", ev: 20 },
     "AliExpress":     { promo: "Spring deals — up to 80% off", off: 80, code: null, ends: "Ongoing", type: "pct" },
-    "Nordstrom":      { promo: "Spring sale — up to 40% off select", off: 40, code: null, ends: "Apr 1", type: "pct" },
+    "Nordstrom":      { promo: "Patagonia & activewear sale items on site; check for new spring markdowns", off: 20, code: null, ends: "Ongoing", type: "pct" },
 };
 
 const CO = {
-    "Dyson":          { cur:5,    detail:"Wet & Robot 5%, Everything Else 3.5%", exp:"Mar 31, 2026",
-                        h:[{d:"2025-09",r:7.5},{d:"2025-10",r:10},{d:"2025-11",r:15},{d:"2025-12",r:24},{d:"2026-01",r:20},{d:"2026-02",r:24},{d:"2026-03",r:5}], lo:3.5, hi:24 },
+    "Dyson":          { cur:5,    detail:"Wet & Robot 5%, Everything Else 3.5%", exp:null,
+                        h:[{d:"2025-09",r:7.5},{d:"2025-10",r:10},{d:"2025-11",r:15},{d:"2025-12",r:24},{d:"2026-01",r:20},{d:"2026-02",r:24},{d:"2026-03",r:5},{d:"2026-04",r:5}], lo:3.5, hi:24 },
     "Carter's":       { cur:20,   detail:"20% reward", exp:null,
-                        h:[{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
+                        h:[{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:20},{d:"2026-03",r:20},{d:"2026-04",r:20}], lo:15, hi:20 },
     "IKEA":           { cur:4,    detail:"4% reward", exp:null,
-                        h:[{d:"2025-09",r:5},{d:"2025-11",r:5.5},{d:"2026-01",r:5},{d:"2026-03",r:4}], lo:4, hi:5.5 },
-    "Chewy":          { cur:4,    detail:"4% reward", exp:"Mar 31, 2026",
-                        h:[{d:"2025-08",r:3},{d:"2025-10",r:4},{d:"2025-12",r:5},{d:"2026-02",r:4},{d:"2026-03",r:4}], lo:3, hi:5 },
+                        h:[{d:"2025-09",r:5},{d:"2025-11",r:5.5},{d:"2026-01",r:5},{d:"2026-03",r:4},{d:"2026-04",r:4}], lo:4, hi:5.5 },
+    "Chewy":          { cur:4,    detail:"4% reward", exp:null,
+                        h:[{d:"2025-08",r:3},{d:"2025-10",r:4},{d:"2025-12",r:5},{d:"2026-02",r:4},{d:"2026-03",r:4},{d:"2026-04",r:4}], lo:3, hi:5 },
     "Gap":            { cur:15,   detail:"15% reward", exp:null,
-                        h:[{d:"2025-08",r:10},{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:15},{d:"2026-03",r:15}], lo:10, hi:20 },
+                        h:[{d:"2025-08",r:10},{d:"2025-10",r:15},{d:"2025-12",r:20},{d:"2026-01",r:15},{d:"2026-03",r:15},{d:"2026-04",r:15}], lo:10, hi:20 },
     "Walmart":        { cur:4,    detail:"4-13% varies by category", exp:null,
-                        h:[{d:"2025-08",r:4},{d:"2025-10",r:8},{d:"2025-12",r:13},{d:"2026-01",r:6},{d:"2026-03",r:4}], lo:4, hi:13 },
+                        h:[{d:"2025-08",r:4},{d:"2025-10",r:8},{d:"2025-12",r:13},{d:"2026-01",r:6},{d:"2026-03",r:4},{d:"2026-04",r:4}], lo:4, hi:13 },
     "Macy's":         { cur:10,   detail:"Up to 18% on select categories", exp:null,
-                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:18},{d:"2026-03",r:10}], lo:8, hi:18 },
-    "Dermstore":      { cur:10,   detail:"10% reward (Everything Else); up to $18.50 on 12-mo subscriptions", exp:"Apr 1, 2026",
-                        h:[{d:"2025-10",r:40},{d:"2025-12",r:60},{d:"2026-02",r:50},{d:"2026-03",r:10}], lo:10, hi:60 },
+                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:18},{d:"2026-03",r:10},{d:"2026-04",r:10}], lo:8, hi:18 },
+    "Dermstore":      { cur:10,   detail:"10% reward (Everything Else); up to $18.50 on 12-mo subscriptions", exp:null,
+                        h:[{d:"2025-10",r:40},{d:"2025-12",r:60},{d:"2026-02",r:50},{d:"2026-03",r:10},{d:"2026-04",r:10}], lo:10, hi:60 },
     "Petco":          { cur:16.5, detail:"16.5% reward", exp:null,
-                        h:[{d:"2025-11",r:12},{d:"2026-01",r:16.5},{d:"2026-03",r:16.5}], lo:12, hi:16.5 },
+                        h:[{d:"2025-11",r:12},{d:"2026-01",r:16.5},{d:"2026-03",r:16.5},{d:"2026-04",r:16.5}], lo:12, hi:16.5 },
     "AliExpress":     { cur:25.5, detail:"25.5% reward", exp:null,
-                        h:[{d:"2025-10",r:18},{d:"2025-12",r:25},{d:"2026-02",r:25.5},{d:"2026-03",r:25.5}], lo:18, hi:25.5 },
+                        h:[{d:"2025-10",r:18},{d:"2025-12",r:25},{d:"2026-02",r:25.5},{d:"2026-03",r:25.5},{d:"2026-04",r:25.5}], lo:18, hi:25.5 },
     "Janie and Jack": { cur:20,   detail:"11-20% reward", exp:null,
-                        h:[{d:"2025-10",r:11},{d:"2025-12",r:20},{d:"2026-02",r:15},{d:"2026-03",r:20}], lo:11, hi:20 },
-    "Stride Rite":    { cur:20,   detail:"20% reward", exp:"Apr 1, 2026",
-                        h:[{d:"2025-11",r:15},{d:"2026-01",r:20},{d:"2026-03",r:20}], lo:15, hi:20 },
+                        h:[{d:"2025-10",r:11},{d:"2025-12",r:20},{d:"2026-02",r:15},{d:"2026-03",r:20},{d:"2026-04",r:20}], lo:11, hi:20 },
+    "Stride Rite":    { cur:20,   detail:"20% reward", exp:null,
+                        h:[{d:"2025-11",r:15},{d:"2026-01",r:20},{d:"2026-03",r:20},{d:"2026-04",r:20}], lo:15, hi:20 },
     "Woom":           { cur:2,    detail:"2-3% reward", exp:null,
-                        h:[{d:"2025-12",r:3},{d:"2026-02",r:2},{d:"2026-03",r:2}], lo:2, hi:3 },
+                        h:[{d:"2025-12",r:3},{d:"2026-02",r:2},{d:"2026-03",r:2},{d:"2026-04",r:2}], lo:2, hi:3 },
     "Aritzia":        { cur:8,    detail:"8% reward", exp:null,
-                        h:[{d:"2025-10",r:5},{d:"2025-12",r:10},{d:"2026-02",r:8},{d:"2026-03",r:8}], lo:5, hi:10 },
+                        h:[{d:"2025-10",r:5},{d:"2025-12",r:10},{d:"2026-02",r:8},{d:"2026-03",r:8},{d:"2026-04",r:8}], lo:5, hi:10 },
     "Lululemon":      { cur:6,    detail:"6% reward", exp:null,
-                        h:[{d:"2025-09",r:4},{d:"2025-11",r:8},{d:"2026-01",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
+                        h:[{d:"2025-09",r:4},{d:"2025-11",r:8},{d:"2026-01",r:6},{d:"2026-03",r:6},{d:"2026-04",r:6}], lo:4, hi:8 },
     "Patagonia":      { cur:7,    detail:"7% reward", exp:null,
-                        h:[{d:"2025-10",r:5},{d:"2025-12",r:9},{d:"2026-02",r:7},{d:"2026-03",r:7}], lo:5, hi:9 },
+                        h:[{d:"2025-10",r:5},{d:"2025-12",r:9},{d:"2026-02",r:7},{d:"2026-03",r:7},{d:"2026-04",r:7}], lo:5, hi:9 },
     "REI":            { cur:5,    detail:"5% reward + member dividend", exp:null,
-                        h:[{d:"2025-10",r:3},{d:"2025-12",r:6},{d:"2026-02",r:5},{d:"2026-03",r:5}], lo:3, hi:6 },
+                        h:[{d:"2025-10",r:3},{d:"2025-12",r:6},{d:"2026-02",r:5},{d:"2026-03",r:5},{d:"2026-04",r:5}], lo:3, hi:6 },
     "Sephora":        { cur:8,    detail:"8% reward on beauty", exp:null,
-                        h:[{d:"2025-09",r:5},{d:"2025-11",r:10},{d:"2026-01",r:8},{d:"2026-03",r:8}], lo:5, hi:10 },
-    "Bloomingdale's": { cur:4,    detail:"4% reward", exp:"Apr 1, 2026",
-                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:4}], lo:4, hi:12 },
+                        h:[{d:"2025-09",r:5},{d:"2025-11",r:10},{d:"2026-01",r:8},{d:"2026-03",r:8},{d:"2026-04",r:8}], lo:5, hi:10 },
+    "Bloomingdale's": { cur:4,    detail:"4% reward", exp:null,
+                        h:[{d:"2025-09",r:8},{d:"2025-11",r:12},{d:"2026-01",r:10},{d:"2026-03",r:4},{d:"2026-04",r:4}], lo:4, hi:12 },
     "Nordstrom":      { cur:6,    detail:"6% reward", exp:null,
-                        h:[{d:"2025-10",r:4},{d:"2025-12",r:8},{d:"2026-02",r:6},{d:"2026-03",r:6}], lo:4, hi:8 },
+                        h:[{d:"2025-10",r:4},{d:"2025-12",r:8},{d:"2026-02",r:6},{d:"2026-03",r:6},{d:"2026-04",r:6}], lo:4, hi:8 },
     "DoorDash":       { cur:30,   detail:"Up to 30% back (home improvement promo)", exp:null,
-                        h:[{d:"2026-03",r:30}], lo:30, hi:30 },
+                        h:[{d:"2026-03",r:30},{d:"2026-04",r:30}], lo:30, hi:30 },
 };
 
 const RAK = [
